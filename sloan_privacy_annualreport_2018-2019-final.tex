@@ -1,0 +1,347 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% !TeX TXS-program:bibliography = txs:///biber
+\documentclass[12pt]{article}
+%TCIDATA{OutputFilter=Latex.dll}
+%-------------------- Page Formatting ------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}                     %%
+%%%%%%%% EXACT 1in MARGINS %%%%%%%  %%
+\setlength{\textwidth}{6.5in}     %%  %%
+\setlength{\oddsidemargin}{0in}   %%  %%
+\setlength{\evensidemargin}{0in}  %%  %%
+\setlength{\textheight}{8.75in}   %%  %%
+\setlength{\topmargin}{0in}       %%  %%
+\setlength{\headheight}{0in}      %%  %%
+\setlength{\headsep}{0in}         %%  %%
+\setlength{\footskip}{.5in}       %%  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--------------------
+
+%-------------------- Packages --------------------
+
+% if using biber/biblatex
+%\usepackage[giveninits=true,natbib,authordate,backend=biber]{biblatex-chicago}
+\usepackage[natbib=true,maxnames=10,giveninits=true,sorting=nyt,style=chicago-authordate,backend=biber]{biblatex}
+
+%\addbibresource{bib/library.bib} % this could be a url
+\addbibresource{data.bib} % this could be a url
+% these were added with the help of the atom2bib.py script
+% python atom2bib.py http://ecommons.cornell.edu/feed/atom_1.0/1813/43874 ldi-pres.bib
+%\addbibresource{ldi-pres.bib}
+% python atom2bib.py http://ecommons.cornell.edu/feed/atom_1.0/1813/43872 ncrn-pres.bib
+%\addbibresource{ncrn-pres.bib}
+\addbibresource{privacy.bib}
+\addbibresource{SDS_1042181.bib}
+
+% for presentations
+%\newcommand{\prescite}[1]{\parencite[Presentation: ][]{#1} }
+\newcommand{\prescite}[1]{(\citeurl[Presentation at ][]{#1})}
+
+% adjustments
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+\defbibenvironment{itemlist}
+{\begin{itemize}}
+{\end{itemize}}
+{\item}
+% remove notes from fullcite
+\AtEveryCitekey{%
+\clearfield{note}%
+\iffieldundef{doi}{\clearfield{doi}}{\clearfield{url}}%
+}
+%
+\AtEveryBibitem{
+	\clearfield{note}
+}
+
+\usepackage[printonlyused]{acronym}   % defines acronyms
+\usepackage{amssymb}  % AMS symbols
+\usepackage{amsmath}  % AMS math
+\usepackage{amsfonts}
+\usepackage{graphicx} % for inclusion of EPS graphics
+\usepackage{fullpage}  % enlarged margins
+\usepackage{float}     % ?
+\usepackage{setspace}
+\usepackage{csvsimple}
+\usepackage{xcolor} %font colors
+\usepackage{geometry} %manually laying out pages
+% defining colors for package hyperref
+\definecolor{myblue}{rgb}{0,.2,1}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{url}
+\hypersetup{%
+naturalnames=true,%
+bookmarksnumbered=true,%
+bookmarksopen=false,%
+plainpages=true,%
+colorlinks=true,%
+urlcolor=myblue,
+linkcolor=myblue,%
+filecolor=myblue,%
+citecolor=black,%
+pdfpagemode=UseOutlines%
+}%
+
+
+%
+% inserted by Lars
+\usepackage[shortlabels]{enumitem}
+\usepackage{comment}
+\usepackage{etoolbox}
+\newtoggle{final}
+%\toggletrue{final}
+\togglefalse{final}
+
+\iftoggle{final}{
+	\usepackage[disable]{todonotes}
+	\newcommand{\tc}[2]{% % 1=comment 2=text
+		{#2}
+	}
+
+	\geometry{letterpaper,ignoreheadfoot,left=1.0in,right=1.0in,top=1.0in,bottom=1.0in} %rgb
+}{
+\geometry{letterpaper,ignoreheadfoot,left=1.0in,right=2.0in,top=1.0in,bottom=1.0in,footskip=0.25in,headsep=0.125in,marginparwidth=1.75in,paperwidth=9.5in} %rgb
+\usepackage[textsize=scriptsize]{todonotes}
+\newcommand{\tc}[2]{% % 1=comment 2=text
+	\todo[size=\scriptsize]{#1}\textbf{\color{red}{#2}}
+}
+
+}
+
+% todo-enabled version: \margincomment{}{} command to put comments about text into the margin.
+\newcommand{\margincomment}[2]{% % 1=initials, 2=comment
+	\todo[size=\scriptsize,linecolor=blue!90]{\textbf{\uppercase{#1}:}~#2}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define acronys here. When many, put into subdocument
+\acrodef{OPM}{Office of Personnel Management}
+\acrodef{RAIS}{Rela\c{c}\~{a}o Anual de Informa\c{c}\~{o}es Sociais}
+\acrodef{FOIA}{Freedom of Information Act}
+\acrodef{UNECE}{United Nations Economic Commission for Europe}
+\acrodef{FSS POS}{Federal Statistical System Public Opinion Survey}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-------------------- choose the font here --------------------
+\usepackage{times}
+% \usepackage{palatino}
+
+%-------------------- macros from TCILATEX.TEX --------------------------
+% macros for user - defined functions
+\def\limfunc#1{\mathop{\rm #1}}%
+\def\func#1{\mathop{\rm #1}\nolimits}%
+% macro for unit names
+\def\unit#1{\mathop{\rm #1}\nolimits}%
+%\input{tcilatex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define PIS consistently/shorts
+\newcommand{\TheIan}{PI Schmutte~}
+\newcommand{\TheLars}{PI Vilhuber~}
+\newcommand{\TheJohn}{PI Abowd~}
+
+
+% Clear some stuff from the bibliography
+\AtEveryBibitem{%
+	\clearfield{day}%
+	\clearfield{month}%
+	\clearfield{endday}%
+	\clearfield{endmonth}%
+	\clearlist{language}%
+	\clearfield{issn}%
+	\clearfield{eprint}% - adjust if necessary
+	\iffieldundef{doi}{}{\clearfield{url}}% remove URL field if DOI present
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\nobibliography{privacy}
+
+\begin{center}
+\textbf{Final and Cumulative Annual Report for Alfred P.\ Sloan Foundation Grant G-2015-13903 ``The Economics of Socially-Efficient Privacy and Confidentiality Management for Statistical Agencies''}\\
+John M.\ Abowd, Ian M.\ Schmutte, and Lars Vilhuber
+\end{center}
+
+\section{Key Metrics}
+\textbf{Goal:} To study the economics of socially efficient protocols for managing research databases containing private information.
+\vskip.10in
+\noindent\textbf{Metrics}
+
+\begin{enumerate}
+	\item \textbf{At least four peer-reviewed articles that are published in journals read by economists, statisticians, and other social scientists.}
+	\begin{itemize}
+		\item The following manuscripts have been published or are forthcoming:
+		\begin{enumerate}[1)]
+			\item \fullcite{abowd:schmutte:BPEA:2015}
+			\item \fullcite{MirandaVilhuber:Using:SJIAOS:2016}
+			\item \fullcite{Schmutte:Differentially:SJIAOS:2016}
+			\item \fullcite{VilhuberAbowdReiter:Synthetic:SJIAOS:2016}
+			\item \fullcite{Abowd:JPC:2017}
+			\item \fullcite{HaneySIGMOD2017}
+			\item \fullcite{chance:2017}
+			\item \fullcite{AbowdSchmutte:Privacy:AER}
+		    \item \fullcite{AEAPP2019}
+		    %\item \fullcite{PrivPubGood}
+	\end{enumerate}
+
+		\item The following working papers have been posted, in anticipation of later publication and for open access:
+		\begin{itemize}
+			\item \fullcite{VilhuberLagoze:LDI:2017}
+			\item \fullcite{Abowd:Revisiting:LDI:2017}
+			\item \fullcite{ProceedingsNSFSloan2017}
+			\item \fullcite{ProceedingsSynLBD2017}
+			\item \fullcite{Haney:LDI:2017}
+			\item \fullcite{AbowdSchmutteVilhuber:LDI:2018}
+			\item \fullcite{AbowdSchmutte:Privacy:LDI}
+			\item \fullcite{LDI:AEAPP2019}
+			%\item PrivPubGood (TBD)
+		\end{itemize}
+	    \item The following document has been posted, without anticipation of future publication, though with intent to be updated continuously:
+	    \begin{itemize}
+	    	\item \fullcite{privacyprimer2019}
+	    \end{itemize}
+    An online version is available at \url{https://labordynamicsinstitute.github.io/privacy-bibliography/}.
+	\end{itemize}
+
+
+
+	\item \textbf{A library of socially efficient algorithms that other researchers can readily implement}
+	We initially developed  python scripts for running the Multiplicative Weights Exponential Mechanism (MWEM), Dual Query, and Private Multiplicative Weights (PMW) privacy algorithms. Each algorithm has essentially three structured components: data preprocessing, a query generator, and the privacy algorithm.  We prepared a variety of different query generators to suit specific private data publication tasks. Implementation of differentially private data publication using MWEM is proved to be the most successful of the three algorithms.
+
+	However, we then shifted our focus to supporting  the \href{https://www.dpcomp.org/}{DPComp} project. In particular, we contributed realistic large-scale synthetic data, in particular data from the American Community Survey \parencite{ACS2010-2014} (a copy of which we archived for reference at openICPSR).  Most other test data provided at \href{https://www.dpcomp.org/}{DPComp} are small-scale. The ACS data, on the other hand, are scaled up to simulate the entire US population. Data generated were deposited at openICPSR \parencite{openicpsr:e100274v1}.
+
+    Furthermore, we supported \href{http://users.cs.duke.edu/~ashwin/}{Ashwin Machanavajjhala, Duke University} in developing applied algorithms to protect future ACS releases by the Census Bureau, and to use current ACS releases as input to that undertaking. He  also initiated work on a new system for authoring differentially private algorithms. The goal is to deploy this system for authoring differentially private algorithms within the US Census Bureau for releasing Census Bureau data with provable guarantees. Intermediate progress from this work led to the release of the Post Secondary Employment Outcomes (PSEO) using differential privacy \parencite{FooteAshwinMcKinney:JPC:2019}.
+
+
+
+	\item \textbf{A policy handbook or brief to inform key statistical agencies on managing the tradeoffs between enabling data access and maintaining privacy}
+		\begin{itemize}
+			\item As  guidance to statistical agencies, we  published
+			\begin{quote}
+				\fullcite{ProceedingsSynLBD2017}
+			\end{quote}
+		and
+		\begin{quote}
+			\fullcite{ProceedingsNSFSloan2017}
+		\end{quote}
+			based on workshops we organized in May 2017 with participants from various agencies (see below). They complement \textcite{ProceedingsNSFSloan2016}.
+			\item A book chapter on ``Disclosure Limitation and Confidentiality Protection in Linked Data'' is under review by the publisher (Elsevier). Final publication is slated for May 2019. Working paper versions have been made available as
+			\begin{itemize}
+				\item \fullcite{AbowdSchmutteVilhuber:LDI:2018}
+				\item \fullcite{RePEc:cen:wpaper:18-07}
+			\end{itemize}
+			\item Each of the PIs has actively engaged with key statistical agencies on matters related to the grant research. Evidence of their engagement is illustrated in the list of seminar and conference presentations and other activities described below.
+
+		\end{itemize}
+	\item \textbf{At least one graduate equipped with unique research and computational skills.}
+		\begin{itemize}
+			\item William Sexton, whom we originally hired in January 2016, has been recruited to continue his work on confidentiality as an intern at the Census Bureau, %\tc{John, verify}{working on confidentiality protection system for the 2020 Decennial Census} (since May 2017).
+			\item Jo\~ao V\'itor Costa, PhD student in Economics at Cornell University, assisted with the  Brazilian linked employer-employee data.
+			\item Daniel Lin, PhD student in Economics at Cornell University,  helped validate the ACS-related synthesis, and also worked on synthesizing the Brazilian linked employer-employee data.
+		\end{itemize}
+
+\end{enumerate}
+\section{Associated Activities} % (fold)
+\label{sec:other_activities}
+All PIs  gave presentations at various universities, conferences, governmental,  and sundry public venues, in Argentina, Canada, Finland, Morocco, the United Kingdom, and of course the United States. All authors regularly presented at conferences and meetings in economics, statistics, and computer science, as well at regular seminars. Most presentation materials (slide decks) are archived at the Cornell eCommons at  \url{https://ecommons.cornell.edu/handle/1813/43874} \url{https://ecommons.cornell.edu/handle/1813/43872}. PIs Abowd and Schmutte presented multiple times at the Isaac Newton Institute (UK) in 2016, and at the Simons Institute (UC-Berkeley) in 2017 and 2019.  \TheLars spoke to the CNSTAT panel on ``Transparency and Reproducibility in Federal Statistics'', based on the work published in \textcite{chance:2017}. \textcite{NAP25305} is a published transcript of that presentation. \TheJohn participated in the panel in his Census Bureau capacity. \TheJohn gave widely disseminated lectures on ``How Will Statistical Agencies Operate When All Data are Private?'' (Julius Shiskin Memorial Award Seminar, when \TheJohn received the award in 2016 - see also \textcite{Abowd:JPC:2017}), on ``Data Linking Methods and Research Challenges'' (NBER Methodology Lecture), on ``What is a Privacy Loss Budget and How Is It used to Design Privacy Protection for a Confidential Database?'' (American Statistical Association's Data Privacy Day Webinar 2018), and a Webinar with the Future of Privacy Forum. 
+
+As part of his official duties at the Census Bureau, PI Abowd reported on managing the economic trade-off between privacy loss and accuracy to the Census Scientific Advisory Committee (2016, 2017, and 2018), to the Federal Economic Statistics Advisory Committee (2018), and to the 2020 Census Program Management Review (2018). He also testified extensively on this tradeoff in three separate U.S. District Court trials seeking to enjoin the Census Bureau from asking about citizenship on the 2020 Census. No District Court allowed the plaintiffs’ privacy claim, and briefs before the Supreme Court from both the appellants (Commerce) and respondents (all original plaintiff groups) acknowledge that the proposed statistical disclosure limitation on the 2020 Census (differential privacy) does not pose a privacy harm.
+
+
+
+
+\subsection{Workshops organized by the PIs}
+Multiple sessions at the World Statistics Congress in 2015, 2017, and forthcoming in 2019, as well as at various Joint Statistical Meetings were organized around the topic of practical privacy.
+We also organized three key workshops in 2016 and 2017. In each case, proceedings were made public.
+\begin{itemize}
+
+\item We organized the ``\href{https://www.ncrn.cornell.edu/event/nsf-sloan-workshop-on-practical-privacy/?instance_id=104204}{NSF-Sloan Workshop on Practical Privacy}'' in October 2016 at the U.S. Census Bureau (with travel funding through NSF grant CNS-1012593, and organizational support provided by this grant). The goal of the workshop was to contemplate practical implementations of privacy preserving statistical methods by drawing together expertise of academic and governmental researchers, and to produce short written memos that summarize concrete suggestions for practical applications to specific Census Bureau priority areas. About 30 researchers from academia (including several Sloan grantees) and the Census Bureau participated. The proceedings were published as
+\begin{itemize}
+	\item[] \fullcite{ProceedingsNSFSloan2016,}.
+\end{itemize}
+
+\item We organized a second ``\href{https://www.ncrn.cornell.edu/event/nsf-sloan-workshop-on-practical-privacy-2017/?instance_id=104207}{Cornell-Census-NSF–Sloan Workshop On Practical Privacy 2017}'' in May 2017 at the U.S. Census Bureau (with travel funding through NSF grant CNS-1012593, and organizational support provided by this grant), as a follow-up to the October 2016 workshop. The proceedings were published as \begin{itemize}
+	\item[] \fullcite{ProceedingsNSFSloan2017}.
+\end{itemize} Several other Sloan grantees participated, as did representatives of statistical agencies.
+
+\item We organized a ``\href{https://www.ncrn.cornell.edu/event/synthetic-longitudinal-business-data-international-user-seminar/?instance_id=104227}{Synthetic Longitudinal Business Data International User Seminar}'' in May 2017 at the National Academy of Sciences (with travel funding through NSF grant CNS-1012593, local support by the National Academies, and organizational support provided by this grant), to discuss with interested parties the conditions necessary to implement the SynLBD approach, with the goal of providing other statistical agencies a straightforward toolkit to implement the same procedure on their own data. The proceedings were published as \begin{itemize}
+	\item[] \fullcite{ProceedingsSynLBD2017}.
+\end{itemize}
+The seminar has informed efforts to use the methodology for applications at Statistics Canada and the Urban Institute (applying it to IRS data).
+\end{itemize}
+
+
+	
+
+
+
+\subsection{Other activities}
+\subsubsection*{Funding, advisory boards}
+\begin{itemize}
+	\item \TheLars: Chair of the Scientific Advisory Board ({\it pr\'esident du conseil scientifique}) of the Centre d'acc\`es 	s\'ecuris\'e aux donn\'es (CASD) in France, since January 1, 2016 (\url{casd.eu}), Member of the ASA's Committee on Privacy and Confidentiality, Member of the Quebec Inter-University Center for Social Statistics's Scientific Advisory Board, Member of the Canadian Research Data Center Network's  Executive Board (since Dec 2018)
+	\item \TheJohn: Member of the Canadian Research Data Center Network's Inaugural Executive Board (until Jan 2019)
+	\item \TheLars With support from a  grant from the Social Sciences and Humanities Research Council Canada (SSHRC) (``Productivity, firms, and incomes'') and the assistance of a post-doc (Jahangir Alam), Statistics Canada has announced the  release of synthetic establishment data produced using the SynLBD methodology. The data is available through the Canadian RDC network. These activities are a direct outcome of discussions and the visibility of this project.
+	\item \TheLars is PI of the NSF-Census Research Network Coordinating Office, and planned the final (May 2017) Workshop of the NCRN nodes at the Census Bureau. At this workshop, work on privacy and confidentiality by non-NCRN entities (Purdue University: Chris Clifton, Georgetown University: Kobbi Nissim) under cooperative agreements with the Census Bureau was presented. A final report, highlighting much work on privacy done under the NSF grants, was produced and published \parencite{ncrn-summary}.
+
+\end{itemize}
+
+\subsubsection*{Journals}
+Although not funded by this grant, the work on this grant also led to \TheJohn and \TheLars (together with Cynthia Dwork, Alan Karr, and Kobbi Nissim) relaunching the Journal of Privacy and Confidentiality (\url{https://journalprivacyconfidentiality.org/}) \parencite[see ][]{Vilhuber2018,Slavkovic2018}.
+
+\subsubsection*{Replication archives and data}
+In support of our own papers, we created replication archives. We also collected and preserved data that might not be accessible in the original location in the future. The following is the list of such archives:
+
+\defbibfilter{reparchive}{
+	type=misc
+}
+
+\printbibliography[filter=reparchive,heading=none]
+
+We also used funding to support the Synthetic Data Server, thus enabling the continued use of two U.S. Census Bureau synthetic data products. The Synthetic Data Server is housed at Cornell University, and researchers conduct an initial analysis on the server over the open internet. Researchers can use the results without restrictions. Their program code is then sent to the U.S. Census Bureau, where the code is replicated against confidential data. Results from the second run are subject to standard U.S. Census Bureau disclosure avoidance rules, and if conform, are provided to researchers. Typically, researchers will use the results from the second run in their published papers. Access protocols and some outcomes were presented in \textcite{Improved-Access-Abowd-SOLE-20130503} at the Society of Labor Economists' annual meeting.
+
+Over 150 users have used the server. Many research projects never result in published outcomes, much like when researchers use public-use data. However, several researchers have been published in top economics journals: 
+\begin{itemize}
+	\item Papers and theses using the SIPP Synthetic Beta:
+	\begin{itemize}
+		\item \fullcite{Armour2014}
+		\item \fullcite{Henriques2017}
+		\item \fullcite{NeumeierSorensenWebber_SJE}
+		%\item \fullcite{10.1257/pandp.20181050}
+	\end{itemize}
+    \item Papers using the Synthetic Longitudinal Business Database:
+    \begin{itemize}
+    	\item \fullcite{10.1257/aer.20141280}
+    	\item \fullcite{GreenstoneMasNguyen2018}
+    	\item \fullcite{Osotimehin2018}
+    \end{itemize}
+\end{itemize}
+
+%\bibliographystyle{\mybibstyle}
+\newpage
+%\printbibliography[title=Complete Set of References]
+\section{Complete List of Publications}
+\nocite{*}
+%\multicolumn{2}{l}
+\defbibfilter{collective}{
+	type=incollection or
+	type=inproceedings
+}
+\defbibfilter{report}{
+	type=report
+}
+
+\paragraph{\it \bf Referreed Publications :}%\\
+\printbibliography[type=article,heading=none]
+\paragraph{\it \bf Proceedings :}%\\
+\printbibliography[filter=collective,heading=none]
+
+\paragraph{\it \bf Working papers and other documents:}%\\
+\printbibliography[filter=report,heading=none]
+
+\end{document}

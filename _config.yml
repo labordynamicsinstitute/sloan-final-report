@@ -1,0 +1,11 @@
+theme: jekyll-theme-minimal
+title: The Economics of Socially-Efficient Privacy and Confidentiality Management for Statistical Agencies
+author:
+  name: Lars Vilhuber
+  twitter: larsvil
+twitter_username: larsvil
+github_username: larsvilhuber
+logo: assets/cornell_logo_simple_black.svg
+description: This is the Final and Cumulative Annual Report for Alfred P. Sloan Foundation Grant G-2015-13903 ``The Economics of Socially-Efficient Privacy and Confidentiality Management for Statistical Agencies''.
+show_sites: true
+show_downloads: false
